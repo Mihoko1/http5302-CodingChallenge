@@ -1,0 +1,201 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body{
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+}
+
+nav{
+    background-color:gold;
+	color: #000;
+	margin: 0;
+	padding: 2px;
+    
+}
+nav h1{
+	margin-left: 10px;
+}
+
+.container{
+	width: 90%;
+	margin: 30px auto 50px;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.memberContainer h2{
+	margin: 10px auto;
+	text-align: center;
+}
+
+.profImgBox{
+   text-align: center;
+}
+
+.profImgBox img {
+	width:200px;
+	height:200px;
+	object-fit:cover;
+	border-radius:50%;
+	object-position:0px 0px;
+}
+
+.memberContainer{
+	width: 30%;
+	margin-top: 20px;
+	/* height: 100px; */
+	padding: 10px;
+    height: auto;
+    background-color: beige;
+	position: relative;
+	padding-bottom: 130px;
+}
+
+.bio{
+	width: 90%;
+	margin: 30px auto 10px;
+}
+
+.featureBox{
+    text-align: right;
+    height: 40px;
+}
+
+.roleBox{
+	position: absolute;
+	display: flex;
+	flex-wrap:wrap;
+	bottom: 20px;
+}
+
+.roleBox div{
+	margin-right: 10px;
+	padding: 5px;
+	margin-top: 5px;
+}
+
+.btn{
+	position: absolute;
+	bottom: 70px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: block;
+	color: #000;
+	font-weight: 700;
+	background-color:gold;
+	padding: 10px;
+	border-radius: 5px;
+	border: none;
+	
+	
+	
+}
+
+.btn:hover{
+	/* display: inline-block; */
+	color: #000;
+	background-color:#cf7319;
+	
+}
+
+.individualContainer{
+	width: 80%;
+}
+
+/********   Modal ********/
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	overflow: auto;
+	background-color: rgba(0,0,0,0.8);
+}
+	
+.modal-content{
+	background-color: #fff;
+	width: 80%;
+	margin: 50px auto;
+	position: relative;
+	
+}
+
+#modal-body{
+	/* width: 80%; */
+	margin: 60px auto;
+	padding: 60px;
+	text-align: center;
+	
+}
+
+.modalProfImgBox{
+	text-align: center;
+
+}
+
+.modalProfImgBox img{
+	/* display: block; */
+	margin: 30px auto;
+	object-fit:cover;
+	border-radius:50%;
+	object-position:0px 0px;
+	text-align: center;
+
+}
+
+.closeBtn{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	border: none;
+	font-size: 30px;
+}
+
+.modalRoleBox{
+	margin-top: 50px;
+	display: flex;
+	flex-wrap:wrap;
+}
+
+.modalRoleBox div{
+	padding: 10px;
+	margin-right: 5px;
+	margin-left: 5px;
+	margin-top: 5px;
+}
+
+
+footer{
+	background-color: #000;
+	color: #fff;
+	text-align: center;
+	padding: 30px;
+}
+
+
+@media only screen and (max-width: 768px) {
+	.container {
+		flex-wrap: wrap;
+	}
+ 
+	.memberContainer {
+		width: 45%;
+	}
+
+}
+
+@media only screen and (max-width: 600px) {
+	.container {
+		flex-wrap: wrap;
+	}
+ 
+	.memberContainer {
+		width: 100%;
+	}
+ }

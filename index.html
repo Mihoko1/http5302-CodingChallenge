@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Coding Interview Challenge</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="css/styles.css"> 
+    </head>
+    <body>
+        <header>
+            <nav>
+               <h1>My Team</h1>
+            </nav>
+        </header>
+
+        <!-- Cards-->
+        <div id="container" class="container"></div>
+
+        <!-- Modal -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+              <div id="modal-body"></div>
+            </div>
+        </div>
+
+        <footer>Mihoko Schick - Coding Challenge</footer> 
+
+        <script>
+
+            // API Call
+            var request = new XMLHttpRequest();
+        
+            request.open('GET', 'http://sandbox.bittsdevelopment.com/code1/fetchemployees.php', true);
+            request.responseType = 'json';
+        
+            request.onload = function () {
+                var data = this.response;
+
+                for (var i = 1; i < Object.keys(data).length+1; i++){
+
+                    //Create elements
+                    var container = document.getElementById("container");
+
+                    var memberContainer = document.createElement("div"); 
+                    memberContainer.className = 'memberContainer';
+                    
+                    var memberName = document.createElement("h2");  
+
+                    var bio = document.createElement("p");
+                    bio.setAttribute("class", "bio");
+
+                    var roleConatiner = document.createElement("div");
+                    roleConatiner.setAttribute("class", "roleBox");
+
+                    var featureBox = document.createElement("div");
+                    featureBox.setAttribute("class","featureBox");
+                   
+
+                    // Button for modal
+                    var button = document.createElement('input');
+                    button.setAttribute("class", "btn");
+                    button.setAttribute("type","button"); 
+                    button.setAttribute("value","View Member");
+                   
+
+                    // Close button
+                    var closeBtn = document.createElement('input');
+                    closeBtn.setAttribute("class", "closeBtn");
+                    closeBtn.setAttribute("type","button"); 
+                    closeBtn.setAttribute("value","✕");
+
+                   
+                    var obj = data[i];
+                    for (var key in obj){
+                        var value = obj[key];
+                        
+                        if(key == 'employeeid'){
+                            var imgElement = document.createElement('img');
+                            imgElement.src = 'http://sandbox.bittsdevelopment.com/code1/employeepics/'+ obj['employeeid'] +'.jpg'; 
+                            
+                            // Set data to use for modal
+                            button.dataset.id = obj['employeeid'];
+
+                            imgElement.alt = obj['employeefname'] + ' ' + obj['employeelname']; 
+                            
+                            imgElement.width = 200; 
+                            imgElement.height = 200; 
+
+                            
+                            var profPicContainer = document.createElement("div"); 
+                            profPicContainer.setAttribute("class","profImgBox");
+                            profPicContainer.appendChild(imgElement);
+
+                           
+                        }
+                        
+                        
+                        memberName.innerHTML = obj['employeefname'] + ' ' + obj['employeelname'];
+
+                        bio.innerHTML  = obj['employeebio'].substring(0, obj['employeebio'].indexOf("."));
+
+
+                        if(key == 'roles'){
+
+                            for (var j = 0; j < obj['roles'].length; j++){
+                                console.log(obj['roles'][j]);
+
+                                var role = obj['roles'][j];
+                                console.log(role['rolename']);
+
+                                var roles = document.createElement("div");
+                                roles.innerHTML = role['rolename'];
+                                roles.style.backgroundColor = role['rolecolor'];
+                                roleConatiner.appendChild(roles);
+
+                            }
+                        }
+
+                        if(key == 'employeeisfeatured'){
+
+                            if(value == '1'){
+
+                                var feature = document.createElement("img");
+                                feature.src = 'img/crown.png'; 
+
+                                feature.alt = "Featured employee"; 
+
+                                feature.width = 40; 
+                                feature.height = 40;
+
+                                featureBox.appendChild(feature);
+
+                            }
+
+                        }
+
+                        // Member Container
+                        memberContainer.appendChild(featureBox); 
+                        memberContainer.appendChild(profPicContainer); 
+                        memberContainer.appendChild(memberName);
+                        memberContainer.appendChild(bio);
+                        memberContainer.appendChild(button);
+                        memberContainer.appendChild(roleConatiner);
+
+
+                         // MODAL
+                        button.onclick = function(e) {
+                            var modalConatiner = document.getElementById("modal-body");
+                            var modalMemberName = document.createElement("h2");  
+                            var modalBio = document.createElement("p");
+                            modalBio.setAttribute("class", "modalBio");
+                            var modalRoleConatiner = document.createElement("div");
+                            modalRoleConatiner.setAttribute("class", "modalRoleBox");
+                            var modalFeatureBox = document.createElement("div");
+                            modalFeatureBox.setAttribute("class","modalFeatureBox");
+
+
+                            // Get id which button is clicked
+                            var id = e.currentTarget.dataset['id'];
+
+                            // Make modal-body empty first
+                            modalConatiner.innerHTML = ''; 
+                            modalFeatureBox.innerHTML = '';
+                            modalRoleConatiner.innerHTML = '';
+
+                            
+                            // Show modal
+                            var modal = document.getElementById('modal');
+                            modal.style.display = 'block';
+
+                            // Call API
+                            var requestForModal = new XMLHttpRequest();
+        
+                            requestForModal.open('GET', 'http://sandbox.bittsdevelopment.com/code1/fetchemployees.php', true);
+                            requestForModal.responseType = 'json';
+                        
+                            requestForModal.onload = function () {
+                                var data = this.response;
+                               
+                                for (var i = 1; i < Object.keys(data).length+1; i++){
+
+                                    var obj = data[i];
+                                        for (var key in obj){
+                                            var value = obj[key];
+
+                                            if(key == 'employeeid' && value == id){
+
+
+                                                var modalImgElement = document.createElement('img');
+                                                modalImgElement.src = 'http://sandbox.bittsdevelopment.com/code1/employeepics/'+ obj['employeeid'] +'.jpg'; 
+
+                                                modalImgElement.alt = obj['employeefname'] + ' ' + obj['employeelname']; 
+                                                
+                                                modalImgElement.width = 200; 
+                                                modalImgElement.height = 200; 
+
+                                                var modalProfPicContainer = document.createElement("div"); 
+                                                modalProfPicContainer.setAttribute("class","modalProfImgBox");
+                                                modalProfPicContainer.appendChild(modalImgElement);
+                           
+                        
+                                                modalMemberName.innerHTML = obj['employeefname'] + ' ' + obj['employeelname'];
+
+                                                modalBio.innerHTML  = obj['employeebio'];
+
+                      
+
+                                                for (var j = 0; j < obj['roles'].length; j++){
+                                                   
+                                                    var modalRole = obj['roles'][j];
+                                                    var rolename = modalRole['rolename'];
+
+                                                    var modalRoles = document.createElement("div");
+                                                    modalRoles.innerHTML = rolename;
+                                                    modalRoles.style.backgroundColor = modalRole['rolecolor'];
+
+                                                    if(rolename == "Communications"){
+                                                        modalRoles.style.border = "1px solid #000000";
+                                                    }
+
+                                                    modalRoleConatiner.appendChild(modalRoles);
+                                                
+                                                }
+                                        
+
+                                                var featured =  obj['employeeisfeatured'];
+                                                if(featured == '1'){
+
+                                                    var modalfeature = document.createElement("img");
+                                                    modalfeature.src = 'img/crown.png'; 
+
+                                                    modalfeature.alt = "Featured employee"; 
+
+                                                    modalfeature.width = 40; 
+                                                    modalfeature.height = 40;
+
+                                                    modalFeatureBox.appendChild(modalfeature);
+
+                                                }
+
+                                            }
+                                        }
+                                }
+
+                                closeBtn.onclick = function (e){
+
+                                    modal.style.display = 'none';
+
+                                }
+
+                                modalConatiner.appendChild(modalProfPicContainer); 
+                                modalConatiner.append(closeBtn);
+                                modalConatiner.appendChild(modalFeatureBox);
+                                modalConatiner.appendChild(modalMemberName);
+                                modalConatiner.appendChild(modalBio);
+                                modalConatiner.appendChild(modalRoleConatiner);
+                            };
+
+
+                            requestForModal.send();
+ 
+                        }
+
+                        container.appendChild(memberContainer);
+                    }
+                }
+            
+            };
+        
+            request.send();
+
+            
+        </script>
+
+    </body>
+    
+</html>
